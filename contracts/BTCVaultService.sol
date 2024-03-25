@@ -97,8 +97,19 @@ contract BTCVaultService is Initializable, UUPSUpgradeable, ReentrancyGuardUpgra
         nonceOptionDataMap[currentNonce].owner = msg.sender;
         nonceOptionDataMap[currentNonce].status = OptionStatus.PENDING;
         
-        //
+        //1.
+        uint256 uRandom = getRandom();
+        noncePreImageMap[currentNonce] = uRandom;
 
+
+        //bytes
+        bytes32 bRandom = (bytes32)uRandom;
+
+        //
+        noncePreImageMap[currentNonce].preImageHash = ripemd160(sha256(bRandom))
+
+        // preImageHash 
+        
         //
         currentNonce ++ ;
 
