@@ -37,6 +37,8 @@ const chainIds = {
 
 function getChainConfig(chain: keyof typeof chainIds): NetworkUserConfig {
   let jsonRpcUrl: string;
+
+  // console.log("chain is : ",chain);
   switch (chain) {
     case "local":
       jsonRpcUrl = "http://localhost:8545";

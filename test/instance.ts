@@ -14,13 +14,19 @@ export const createInstances = async (
   ethers: typeof hethers,
   accounts: Signers,
 ): Promise<FhevmInstances> => {
+
+  console.log("1");
   if (!publicKey || !chainId) {
+
+
+    console.log("2");
     // 1. Get chain id
     const provider = ethers.provider;
 
     const network = await provider.getNetwork();
     chainId = +network.chainId.toString(); // Need to be a number
 
+    console.log("3");
     // Get blockchain public key
     const ret = await provider.call({
       to: FHE_LIB_ADDRESS,
@@ -31,6 +37,7 @@ export const createInstances = async (
     publicKey = decoded[0];
   }
 
+  console.log("#####3");
   // Create instance
   const instances: FhevmInstances = {} as FhevmInstances;
   await Promise.all(
