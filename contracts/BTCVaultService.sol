@@ -87,6 +87,10 @@ contract BTCVaultService is Initializable, UUPSUpgradeable, ReentrancyGuardUpgra
         uint256 lockTimestamp,
         uint256 endTimestamp) external onlyOwner {
 
+        bytes32 b32Random = bytes32(generateRandoms());
+        bytes32 sha256Data = sha256(abi.encodePacked(b32Random));
+        bytes20 ripemd160Data = ripemd160(abi.encodePacked(sha256Data));
+
         // 
         nonceOptionDataMap[currentNonce].coinType = coinType;
         nonceOptionDataMap[currentNonce].strikePrice = strikePrice;
@@ -94,29 +98,13 @@ contract BTCVaultService is Initializable, UUPSUpgradeable, ReentrancyGuardUpgra
         nonceOptionDataMap[currentNonce].lockTimestamp = lockTimestamp;
         nonceOptionDataMap[currentNonce].endTimestamp = endTimestamp;
         nonceOptionDataMap[currentNonce].nonce = currentNonce;
+        nonceOptionDataMap[currentNonce].preImageHash = ripemd160Data;
         nonceOptionDataMap[currentNonce].owner = msg.sender;
         nonceOptionDataMap[currentNonce].status = OptionStatus.PENDING;
         
-        //1.
-        uint256 uRandom = getRandom();
-        noncePreImageMap[currentNonce] = uRandom;
-
-
-        //bytes
-        bytes32 bRandom = (bytes32)uRandom;
-
-        //
-        noncePreImageMap[currentNonce].preImageHash = ripemd160(sha256(bRandom))
-
-        // preImageHash 
-        
-        //
-        currentNonce ++ ;
-
     }
 
     function getOptionData(uint256 nonce) external view returns(OptionData memory ){
-
         return nonceOptionDataMap[nonce];
     }
 
@@ -159,7 +147,7 @@ contract BTCVaultService is Initializable, UUPSUpgradeable, ReentrancyGuardUpgra
     }
 
     // 
-    function generateRandoms(uint256 count) external onlyOwner{
+    function generateRandoms() internal returns(uint256){
 
         uint256 randomHash = uint256(
                                 keccak256(
@@ -172,14 +160,15 @@ contract BTCVaultService is Initializable, UUPSUpgradeable, ReentrancyGuardUpgra
                                     )
                                 )
                             );
- 
-        for (uint256 i = 0; i < count; i++) {
+        return randomHash;
 
-            randomHash = (randomHash > block.number) ? (randomHash - block.number) : (block.number - randomHash);
-            randoms[i] = randomHash ;
-            console.log("xxl sol randoms is %d",randomHash);
+        // for (uint256 i = 0; i < count; i++) {
+
+        //     randomHash = (randomHash > block.number) ? (randomHash - block.number) : (block.number - randomHash);
+        //     randoms[i] = randomHash ;
+        //     console.log("xxl sol randoms is %d",randomHash);
         
-        }
+        // }
 
     }
 

@@ -56,7 +56,22 @@ describe("BTCVaultService", function () {
     }
   });
 
+  // it("generateRandoms", async function() {
+  //   await BTCVaultContract.generateRandoms(1);
+  // })
 
+  it("setOptionData", async function() {
+    const rest = await BTCVaultContract.setOptionData(1, 3000, 10, 1711360859, 1711361000);
+    console.log("setOptionData",rest.hash);
+  })
+
+
+  it("getOptionData", async function() {
+    const rest = await BTCVaultContract.getOptionData(0);
+    console.log("getOptionData",rest);
+  })
+
+  
   // it("sha256 and ripemd160", async function () {
 
   //   let aliceSecretHex = "35c598ad69edfdc8895fb3c37cede88331f34f7349233ed579ffa3275cd04eac";
