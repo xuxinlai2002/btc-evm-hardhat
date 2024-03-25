@@ -1,13 +1,18 @@
 // SPDX-License-Identifier: BSD-3-Clause-Clear
 pragma solidity >=0.8.13 <0.9.0;
 
-import "fhevm/lib/TFHE.sol";
+/* solhint-disable reason-string */
+import "@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol";
+import "@openzeppelin/contracts-upgradeable/proxy/utils/UUPSUpgradeable.sol";
+import  "@openzeppelin/contracts-upgradeable/security/ReentrancyGuardUpgradeable.sol";
+
+// import "fhevm/lib/TFHE.sol";
 import "hardhat/console.sol";
 
-contract BTCVaultService  {
+contract BTCVaultService is Initializable, UUPSUpgradeable, ReentrancyGuardUpgradeable {
 
     uint256   constant MAX_POPULATION = 10;
-    uint256[] private  randoms = new uint256[](MAX_POPULATION);
+    uint256[] private  randoms;
     address   private  owner;
     uint32    private  currentNonce;
     
@@ -34,15 +39,25 @@ contract BTCVaultService  {
     mapping(uint256 => OptionData)  private  nonceOptionDataMap;
     mapping(uint256 => bytes32)     private  noncePreImageMap;
 
-    constructor(){
-        owner = msg.sender;
+    modifier onlyOwner{
+        require(msg.sender == owner, "only owner");
+        _;
+    }
+    
+    /// @custom:oz-upgrades-unsafe-allow constructor
+    constructor() {
+        _disableInitializers();
         currentNonce = 0;
     }
 
-    modifier onlyOwner() {
-        //nft owner check
-        require(owner == msg.sender,"owner is not correct");
-        _;
+    function _authorizeUpgrade(
+        address newImplementation
+    ) internal override onlyOwner {}
+
+    function initialize() public initializer {
+        __UUPSUpgradeable_init();
+        owner = msg.sender;
+        randoms = new uint256[](MAX_POPULATION);
     }
 
     function ripemd160Test(bytes memory _data) public view returns (bytes20) {
@@ -70,7 +85,7 @@ contract BTCVaultService  {
         uint256 strikePrice,
         uint256 stakingDuration,
         uint256 lockTimestamp,
-        uint256 endTimestamp) external returns(uint256,bytes20){
+        uint256 endTimestamp) external onlyOwner {
 
         // 
         nonceOptionDataMap[currentNonce].coinType = coinType;
@@ -94,14 +109,14 @@ contract BTCVaultService  {
         return nonceOptionDataMap[nonce];
     }
 
-    function getPreImageHash(){
+    // function getPreImageHash() {
 
-        let nRand = getRandom();
-        conosle.log("xxl sol nRand %d",nRand);
-        let bRand = bytes32(nRand);
-        conosle.logBytes32(bRand);
+    //     uint256 nRand = getRandom();
+    //     conosle.log("xxl sol nRand %d",nRand);
+    //     bytes32 bRand = bytes32(nRand);
+    //     conosle.logBytes32(bRand);
 
-    }
+    // }
 
     // TODO random need to be more safety ,be vrf or from solana rust
     function getRandom() internal returns (uint256 randmon) {
