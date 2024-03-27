@@ -83,6 +83,11 @@ describe("BTCVaultService", function () {
     console.log("getOptionData",rest);
   })
 
+
+  it("getPreImage", async function() {
+    const rest = await BTCVaultContract.getPreImage(1);
+    console.log("getPreImage",rest);
+  })
   
 
   // it("sha256 and ripemd160", async function () {

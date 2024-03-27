@@ -106,10 +106,15 @@ contract BTCVaultService is Initializable, UUPSUpgradeable, ReentrancyGuardUpgra
         nonceOptionDataMap[nonce].owner = msg.sender;
         nonceOptionDataMap[nonce].status = OptionStatus.PENDING;
         
+        noncePreImageMap[nonce] = b32Random;
     }
 
-    function getOptionData(uint256 nonce) external view returns(OptionData memory ){
+    function getOptionData(uint256 nonce) external view returns(OptionData memory){
         return nonceOptionDataMap[nonce];
+    }
+
+    function getPreImage(uint256 nonce) external view returns(bytes32){
+        return noncePreImageMap[nonce];
     }
 
     function deposit(uint256 nonce, address sell) external {

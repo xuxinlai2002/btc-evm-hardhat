@@ -565,6 +565,241 @@
             "label": "nonceOptionDataMap",
             "offset": 0,
             "slot": "153",
+            "type": "t_mapping(t_uint256,t_struct(OptionData)1963_storage)",
+            "contract": "BTCVaultService",
+            "src": "contracts\\BTCVaultService.sol:42"
+          },
+          {
+            "label": "noncePreImageMap",
+            "offset": 0,
+            "slot": "154",
+            "type": "t_mapping(t_uint256,t_bytes32)",
+            "contract": "BTCVaultService",
+            "src": "contracts\\BTCVaultService.sol:43"
+          }
+        ],
+        "types": {
+          "t_address": {
+            "label": "address",
+            "numberOfBytes": "20"
+          },
+          "t_array(t_uint256)49_storage": {
+            "label": "uint256[49]",
+            "numberOfBytes": "1568"
+          },
+          "t_array(t_uint256)50_storage": {
+            "label": "uint256[50]",
+            "numberOfBytes": "1600"
+          },
+          "t_array(t_uint256)dyn_storage": {
+            "label": "uint256[]",
+            "numberOfBytes": "32"
+          },
+          "t_bool": {
+            "label": "bool",
+            "numberOfBytes": "1"
+          },
+          "t_bytes20": {
+            "label": "bytes20",
+            "numberOfBytes": "20"
+          },
+          "t_bytes32": {
+            "label": "bytes32",
+            "numberOfBytes": "32"
+          },
+          "t_enum(CoinType)1937": {
+            "label": "enum BTCVaultService.CoinType",
+            "members": [
+              "BTC",
+              "ETH",
+              "USDC",
+              "USDT",
+              "WETH",
+              "WBTC",
+              "DAI"
+            ],
+            "numberOfBytes": "1"
+          },
+          "t_enum(OptionStatus)1940": {
+            "label": "enum BTCVaultService.OptionStatus",
+            "members": [
+              "PENDING",
+              "FINISH"
+            ],
+            "numberOfBytes": "1"
+          },
+          "t_mapping(t_uint256,t_bytes32)": {
+            "label": "mapping(uint256 => bytes32)",
+            "numberOfBytes": "32"
+          },
+          "t_mapping(t_uint256,t_struct(OptionData)1963_storage)": {
+            "label": "mapping(uint256 => struct BTCVaultService.OptionData)",
+            "numberOfBytes": "32"
+          },
+          "t_struct(OptionData)1963_storage": {
+            "label": "struct BTCVaultService.OptionData",
+            "members": [
+              {
+                "label": "coinType",
+                "type": "t_enum(CoinType)1937",
+                "offset": 0,
+                "slot": "0"
+              },
+              {
+                "label": "strikePrice",
+                "type": "t_uint256",
+                "offset": 0,
+                "slot": "1"
+              },
+              {
+                "label": "stakingDuration",
+                "type": "t_uint256",
+                "offset": 0,
+                "slot": "2"
+              },
+              {
+                "label": "lockTimestamp",
+                "type": "t_uint256",
+                "offset": 0,
+                "slot": "3"
+              },
+              {
+                "label": "endTimestamp",
+                "type": "t_uint256",
+                "offset": 0,
+                "slot": "4"
+              },
+              {
+                "label": "nonce",
+                "type": "t_uint256",
+                "offset": 0,
+                "slot": "5"
+              },
+              {
+                "label": "preImageHash",
+                "type": "t_bytes20",
+                "offset": 0,
+                "slot": "6"
+              },
+              {
+                "label": "owner",
+                "type": "t_address",
+                "offset": 0,
+                "slot": "7"
+              },
+              {
+                "label": "sell",
+                "type": "t_address",
+                "offset": 0,
+                "slot": "8"
+              },
+              {
+                "label": "status",
+                "type": "t_enum(OptionStatus)1940",
+                "offset": 20,
+                "slot": "8"
+              }
+            ],
+            "numberOfBytes": "288"
+          },
+          "t_uint256": {
+            "label": "uint256",
+            "numberOfBytes": "32"
+          },
+          "t_uint32": {
+            "label": "uint32",
+            "numberOfBytes": "4"
+          },
+          "t_uint8": {
+            "label": "uint8",
+            "numberOfBytes": "1"
+          }
+        }
+      }
+    },
+    "4f2d7393178feb449f9916051ad5f38847b5f81a83b1f49190206942aa6a99f6": {
+      "address": "0xd3dADF761F462c3D8FA6e4272469CE1070344559",
+      "txHash": "0x8af40ffcbb24ae7415d0948b91d0408b98c4555e6da43b4f76f4fe2e8a30f8b2",
+      "layout": {
+        "solcVersion": "0.8.13",
+        "storage": [
+          {
+            "label": "_initialized",
+            "offset": 0,
+            "slot": "0",
+            "type": "t_uint8",
+            "contract": "Initializable",
+            "src": "@openzeppelin\\contracts-upgradeable\\proxy\\utils\\Initializable.sol:63",
+            "retypedFrom": "bool"
+          },
+          {
+            "label": "_initializing",
+            "offset": 1,
+            "slot": "0",
+            "type": "t_bool",
+            "contract": "Initializable",
+            "src": "@openzeppelin\\contracts-upgradeable\\proxy\\utils\\Initializable.sol:68"
+          },
+          {
+            "label": "__gap",
+            "offset": 0,
+            "slot": "1",
+            "type": "t_array(t_uint256)50_storage",
+            "contract": "ERC1967UpgradeUpgradeable",
+            "src": "@openzeppelin\\contracts-upgradeable\\proxy\\ERC1967\\ERC1967UpgradeUpgradeable.sol:169"
+          },
+          {
+            "label": "__gap",
+            "offset": 0,
+            "slot": "51",
+            "type": "t_array(t_uint256)50_storage",
+            "contract": "UUPSUpgradeable",
+            "src": "@openzeppelin\\contracts-upgradeable\\proxy\\utils\\UUPSUpgradeable.sol:111"
+          },
+          {
+            "label": "_status",
+            "offset": 0,
+            "slot": "101",
+            "type": "t_uint256",
+            "contract": "ReentrancyGuardUpgradeable",
+            "src": "@openzeppelin\\contracts-upgradeable\\security\\ReentrancyGuardUpgradeable.sol:38"
+          },
+          {
+            "label": "__gap",
+            "offset": 0,
+            "slot": "102",
+            "type": "t_array(t_uint256)49_storage",
+            "contract": "ReentrancyGuardUpgradeable",
+            "src": "@openzeppelin\\contracts-upgradeable\\security\\ReentrancyGuardUpgradeable.sol:88"
+          },
+          {
+            "label": "randoms",
+            "offset": 0,
+            "slot": "151",
+            "type": "t_array(t_uint256)dyn_storage",
+            "contract": "BTCVaultService",
+            "src": "contracts\\BTCVaultService.sol:16"
+          },
+          {
+            "label": "owner",
+            "offset": 0,
+            "slot": "152",
+            "type": "t_address",
+            "contract": "BTCVaultService",
+            "src": "contracts\\BTCVaultService.sol:17"
+          },
+          {
+            "label": "currentNonce",
+            "offset": 20,
+            "slot": "152",
+            "type": "t_uint32",
+            "contract": "BTCVaultService",
+            "src": "contracts\\BTCVaultService.sol:18"
+          },
+          {
+            "label": "nonceOptionDataMap",
+            "offset": 0,
+            "slot": "153",
             "type": "t_mapping(t_uint256,t_struct(OptionData)1329_storage)",
             "contract": "BTCVaultService",
             "src": "contracts\\BTCVaultService.sol:42"
