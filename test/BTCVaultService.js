@@ -61,17 +61,30 @@ describe("BTCVaultService", function () {
   // })
 
   it("setOptionData", async function() {
-    const rest = await BTCVaultContract.setOptionData(1, 3000, 10, 1711360859, 1711361000);
+    
+    const coinType = 0;
+    const nonce = 1;
+    const strikePrice = 3500;
+    const stakingDuration = 1;
+    const lockTimestamp = parseInt(new Date().getTime() / 1000 + 5 * 60);
+    const endTimestamp = parseInt(new Date().getTime() / 1000 + 10 * 60);
+
+    const rest = await BTCVaultContract.setOptionData(coinType, nonce, strikePrice, stakingDuration, lockTimestamp, endTimestamp);
     console.log("setOptionData",rest.hash);
   })
 
-
+  it("deposit", async function() {
+    const rest = await BTCVaultContract.deposit(1, "0x9D16512DD5b6C96E9E2196d30ff44F31Ca2d6077");
+    console.log("deposit",rest);
+  })
+  
   it("getOptionData", async function() {
-    const rest = await BTCVaultContract.getOptionData(0);
+    const rest = await BTCVaultContract.getOptionData(1);
     console.log("getOptionData",rest);
   })
 
   
+
   // it("sha256 and ripemd160", async function () {
 
   //   let aliceSecretHex = "35c598ad69edfdc8895fb3c37cede88331f34f7349233ed579ffa3275cd04eac";

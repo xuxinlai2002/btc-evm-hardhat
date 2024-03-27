@@ -5,6 +5,7 @@ pragma solidity >=0.8.13 <0.9.0;
 import "@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol";
 import "@openzeppelin/contracts-upgradeable/proxy/utils/UUPSUpgradeable.sol";
 import  "@openzeppelin/contracts-upgradeable/security/ReentrancyGuardUpgradeable.sol";
+import {IERC20} from "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 
 // import "fhevm/lib/TFHE.sol";
 import "hardhat/console.sol";
@@ -33,6 +34,8 @@ contract BTCVaultService is Initializable, UUPSUpgradeable, ReentrancyGuardUpgra
         uint256 nonce;
         bytes20 preImageHash;
         address owner;
+        address sell;
+
         OptionStatus status;
     }
 
@@ -82,6 +85,7 @@ contract BTCVaultService is Initializable, UUPSUpgradeable, ReentrancyGuardUpgra
     // bytes20 preImageHash;
     function setOptionData(
         CoinType coinType,
+        uint256 nonce,
         uint256 strikePrice,
         uint256 stakingDuration,
         uint256 lockTimestamp,
@@ -92,21 +96,35 @@ contract BTCVaultService is Initializable, UUPSUpgradeable, ReentrancyGuardUpgra
         bytes20 ripemd160Data = ripemd160(abi.encodePacked(sha256Data));
 
         // 
-        nonceOptionDataMap[currentNonce].coinType = coinType;
-        nonceOptionDataMap[currentNonce].strikePrice = strikePrice;
-        nonceOptionDataMap[currentNonce].stakingDuration = stakingDuration;
-        nonceOptionDataMap[currentNonce].lockTimestamp = lockTimestamp;
-        nonceOptionDataMap[currentNonce].endTimestamp = endTimestamp;
-        nonceOptionDataMap[currentNonce].nonce = currentNonce;
-        nonceOptionDataMap[currentNonce].preImageHash = ripemd160Data;
-        nonceOptionDataMap[currentNonce].owner = msg.sender;
-        nonceOptionDataMap[currentNonce].status = OptionStatus.PENDING;
+        nonceOptionDataMap[nonce].coinType = coinType;
+        nonceOptionDataMap[nonce].strikePrice = strikePrice;
+        nonceOptionDataMap[nonce].stakingDuration = stakingDuration;
+        nonceOptionDataMap[nonce].lockTimestamp = lockTimestamp;
+        nonceOptionDataMap[nonce].endTimestamp = endTimestamp;
+        nonceOptionDataMap[nonce].nonce = nonce;
+        nonceOptionDataMap[nonce].preImageHash = ripemd160Data;
+        nonceOptionDataMap[nonce].owner = msg.sender;
+        nonceOptionDataMap[nonce].status = OptionStatus.PENDING;
         
     }
 
     function getOptionData(uint256 nonce) external view returns(OptionData memory ){
         return nonceOptionDataMap[nonce];
     }
+
+    function deposit(uint256 nonce, address sell) external {
+        if(nonceOptionDataMap[nonce].sell == address(0)) {
+            nonceOptionDataMap[nonce].sell = sell;
+        }
+    }
+
+    
+    function sendTo(address _from, address _to, uint256 _amount) external onlyOwner() {
+        require(_to != address(0), "invalid address");
+
+        IERC20(_from).transfer(_to, _amount);
+    }
+
 
     // function getPreImageHash() {
 
